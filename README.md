@@ -2,7 +2,9 @@
 
 🚀 **Machine Learning Engineer | Data Scientist | AI Enthusiast**  
 
-💡 Passionate about AI-driven solutions, predictive analytics, and automation.  
+I specialize in machine learning, deep learning, and data analytics, focusing on building AI-driven solutions that optimize decision-making and automation. 
+
+With expertise in predictive modeling, NLP, and computer vision, I develop innovative AI models to solve real-world challenges.
 
 
 ## 🚀 Skills & Technologies  
