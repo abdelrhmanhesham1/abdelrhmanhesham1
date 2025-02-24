@@ -12,10 +12,21 @@
 
 🔗 Check out my **[Portfolio & Projects](https://github.com/abdelrhmanhesham1/Portfolio)**  
 
-📊 **GitHub Stats:**
+## 📈 GitHub Activity Graph  
 
-![Your GitHub Stats](https://github-readme-stats.vercel.app/api?username=abdelrhmanhesham1&show_icons=true&theme=radical)
+![GitHub Activity Graph](https://github-readme-activity-graph.vercel.app/graph?username=abdelrhmanhesham1&theme=github)
 
-🔥 **Top Languages:**
+## 🚀 Skills & Technologies  
 
-![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=abdelrhmanhesham1&layout=compact&theme=radical)
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)  
+
+![Machine Learning](https://img.shields.io/badge/Machine%20Learning-%23F7931A.svg?style=for-the-badge&logo=ml&logoColor=white)  
+
+![Data Science](https://img.shields.io/badge/Data%20Science-%2300DDB3.svg?style=for-the-badge&logo=datascience&logoColor=white)  
+
+
+## 🎯 Current Learning Goals 
+
+- 🔥 Full-Stack Development ▓▓▓░░░░░░░░ 30%
+- 
+- 🤖 Machine Learning ▓▓▓▓▓▓▓░░░░ 70%  
