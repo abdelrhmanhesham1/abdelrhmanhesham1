@@ -7,21 +7,10 @@ I specialize in machine learning, deep learning, and data analytics, focusing on
 With expertise in predictive modeling, NLP, and computer vision, I develop innovative AI models to solve real-world challenges.
 
 
-## 🚀 Skills & Technologies  
-
-
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)  
-![Machine Learning](https://img.shields.io/badge/Machine%20Learning-%23F7931A.svg?style=for-the-badge&logo=ml&logoColor=white)  
-![Deep Learning](https://img.shields.io/badge/Deep%20Learning-%2300DDB3.svg?style=for-the-badge&logo=deeplearning&logoColor=white)  
-![Data Science](https://img.shields.io/badge/Data%20Science-%234285F4.svg?style=for-the-badge&logo=datascience&logoColor=white)  
-![Data Visualization](https://img.shields.io/badge/Data%20Visualization-%23FF5733.svg?style=for-the-badge&logo=dataviz&logoColor=white)  
-![Natural Language Processing](https://img.shields.io/badge/NLP-%23009688.svg?style=for-the-badge&logo=nlp&logoColor=white)  
-![Computer Vision](https://img.shields.io/badge/Computer%20Vision-%23008080.svg?style=for-the-badge&logo=computer-vision&logoColor=white)  
-
 ## 🛠️ Tech & Skills:
 ### 👨‍💻 Programming:
 ![Python](https://img.shields.io/badge/Python-FFD43B?style=flat&logo=python&logoColor=blue)
-![Java](https://img.shields.io/badge/Java-007396?style=flat&logo=java&logoColor=white)
+![c++](https://img.shields.io/badge/Java-007396?style=flat&logo=java&logoColor=white)
 
 ### 🤖 AI & Machine Learning:
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-FF6F00?style=flat&logo=tensorflow&logoColor=white)
