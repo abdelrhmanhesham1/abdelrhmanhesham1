@@ -10,7 +10,7 @@ With expertise in predictive modeling, NLP, and computer vision, I develop innov
 ## 🛠️ Tech & Skills:
 ### 👨‍💻 Programming:
 ![Python](https://img.shields.io/badge/Python-FFD43B?style=flat&logo=python&logoColor=blue)
-![c++](https://img.shields.io/badge/Java-007396?style=flat&logo=java&logoColor=white)
+![c++](https://img.shields.io/badge/c++-007396?style=flat&logo=java&logoColor=white)
 
 ### 🤖 AI & Machine Learning:
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-FF6F00?style=flat&logo=tensorflow&logoColor=white)
