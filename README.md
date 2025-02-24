@@ -14,15 +14,16 @@ With expertise in predictive modeling, NLP, and computer vision, I develop innov
 
 ### 🤖 AI & Machine Learning:
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-FF6F00?style=flat&logo=tensorflow&logoColor=white)
-![XGBoost](https://img.shields.io/badge/XGBoost-EE4C2C?style=flat&logo=pytorch&logoColor=white)
 ![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-F7931E?style=flat&logo=scikit-learn&logoColor=white)
-![RandomForest](https://img.shields.io/badge/RandomForest-FFD43B?style=flat&logo=python&logoColor=blue)
+![XGBoost](https://img.shields.io/badge/XGBoost-00A4FF?style=flat&logo=xgboost&logoColor=white)
+![Random Forest](https://img.shields.io/badge/Random%20Forest-008000?style=flat)
 
 ### 📊 Data & Visualization:
 ![Pandas](https://img.shields.io/badge/Pandas-150458?style=flat&logo=pandas&logoColor=white)
 ![Matplotlib](https://img.shields.io/badge/Matplotlib-008080?style=flat)
 ![Seaborn](https://img.shields.io/badge/Seaborn-FF6F00?style=flat)
-![Plotly](https://img.shields.io/badge/Plotly-FFD43B?style=flat&logo=python&logoColor=blue)
+![Plotly](https://img.shields.io/badge/Plotly-3F4F75?style=flat&logo=plotly&logoColor=white)
+![Dash](https://img.shields.io/badge/Dash-000000?style=flat&logo=dash&logoColor=white)
 
 ### 🌍 NLP & Computer Vision:
 ![spaCy](https://img.shields.io/badge/spaCy-09A3D5?style=flat)
