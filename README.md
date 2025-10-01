@@ -1,6 +1,6 @@
 ### **👋 Hi, I'm Abdelrhman Hesham!**
 
-🚀 **Machine Learning Engineer | Data Scientist | AI Enthusiast**  
+🚀 **Machine Learning Engineer | Backend Engineer | AI Enthusiast **  
 
 I specialize in machine learning, deep learning, and data analytics, focusing on building AI-driven solutions that optimize decision-making and automation. 
 
@@ -11,6 +11,7 @@ With expertise in predictive modeling, NLP, and computer vision, I develop innov
 ### 👨‍💻 Programming:
 ![Python](https://img.shields.io/badge/Python-FFD43B?style=flat&logo=python&logoColor=blue)
 ![c++](https://img.shields.io/badge/c++-007396?style=flat&logo=java&logoColor=white)
+![JavaScript](https://img.shields.io/badge/c++-007396?style=flat&logo=java&logoColor=green)
 
 ### 🤖 AI & Machine Learning:
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-FF6F00?style=flat&logo=tensorflow&logoColor=white)
