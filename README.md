@@ -2,7 +2,7 @@
 
 🚀 **AI/ML & Backend Engineer — Aviation Information Systems | Backend Instructor**  
 
-🌐 **[Live Portfolio](https://abdelrhman-hesham.netlify.app)** · 📄 **[Download CV](https://abdelrhman-hesham.netlify.app/cv/Abdelrhman-Hesham-Galal-CV.pdf)** · 💼 **[LinkedIn](https://www.linkedin.com/in/abdelrhman-hesham11/)**
+🌐 **[Live Portfolio](https://abdelrhman-hesham.vercel.app)** · 📄 **[Download CV](https://abdelrhman-hesham.vercel.app/cv/Abdelrhman-Hesham-Galal-CV.pdf)** · 💼 **[LinkedIn](https://www.linkedin.com/in/abdelrhman-hesham11/)**
 
 
 I specialize in **machine learning, backend development, and data analytics**, focusing on building **AI-driven** and **scalable backend systems** that power decision-making and automation.  
@@ -61,4 +61,4 @@ With expertise in **predictive modeling, NLP, computer vision**, and **robust ba
 
 📂 **Want to see my full portfolio?**  
 
-🔗 Visit my live portfolio: **[abdelrhman-hesham.netlify.app](https://abdelrhman-hesham.netlify.app)**
+🔗 Visit my live portfolio: **[abdelrhman-hesham.vercel.app](https://abdelrhman-hesham.vercel.app)**
