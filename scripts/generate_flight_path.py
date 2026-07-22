@@ -98,11 +98,14 @@ THEMES = {
         "fg": "#F3F7FC",
         "muted": "#7C8BAE",
         "grid_colors": ["#12204A", "#1B3A6B", "#06B6D4", "#22D3EE", "#A78BFA"],
+        "eaten_color": "#0D1638",
         "altitude_stops": [(0.0, "#1B3A6B"), (0.45, "#06B6D4"), (0.75, "#22D3EE"), (1.0, "#A78BFA")],
         "tape_line": "#2A4A80",
         "plane_fill": "#F3F7FC",
         "plane_stroke": "#22D3EE",
         "marker": "#FF8A3D",
+        "snake_head": "#22D3EE",
+        "snake_body": "#0A7EA4",
     },
     "light": {
         "bg": "#F3F7FC",
@@ -110,13 +113,18 @@ THEMES = {
         "fg": "#0A1128",
         "muted": "#5B6B8C",
         "grid_colors": ["#E4EAF3", "#B8C7DE", "#06B6D4", "#22D3EE", "#7C3AED"],
+        "eaten_color": "#EBF1FA",
         "altitude_stops": [(0.0, "#8CA3C7"), (0.45, "#06B6D4"), (0.75, "#22D3EE"), (1.0, "#7C3AED")],
         "tape_line": "#C7D2E5",
         "plane_fill": "#0A1128",
         "plane_stroke": "#06B6D4",
         "marker": "#F4572E",
+        "snake_head": "#06B6D4",
+        "snake_body": "#0891A8",
     },
 }
+
+N_SNAKE_SEGMENTS = 6
 
 CELL = 11
 GAP = 3
@@ -159,7 +167,28 @@ def build_svg(calendar, theme_name):
     max_week_total = max(week_totals) if week_totals else 1
     peak_week_idx = week_totals.index(max_week_total)
 
-    # ---------- contribution grid ----------
+    # ---------- contribution grid, eaten by the snake as it passes ----------
+    # Boustrophedon order: column 0 top->bottom, column 1 bottom->top, etc.
+    # -- a real (simplified) snake path: every cell visited exactly once,
+    # only right-angle turns at the top/bottom of each column.
+    cell_order = []
+    for wi in range(n_weeks):
+        day_range = range(7) if wi % 2 == 0 else range(6, -1, -1)
+        for di in day_range:
+            cell_order.append((wi, di))
+    n_cells = len(cell_order)
+    eat_time = {(wi, di): k / n_cells for k, (wi, di) in enumerate(cell_order)}
+
+    cells_per_second = 14  # snake speed: how many cells it eats per second
+    snake_duration = max(20, round(n_cells / cells_per_second))
+
+    def cell_center(wi, di):
+        return (MARGIN_X + wi * STEP + CELL / 2, grid_top + di * STEP + CELL / 2)
+
+    snake_path_d = "M " + " L ".join(
+        f"{cell_center(wi, di)[0]:.1f},{cell_center(wi, di)[1]:.1f}" for wi, di in cell_order
+    )
+
     rects = []
     for wi, week in enumerate(weeks):
         for di, day in enumerate(week["contributionDays"]):
@@ -167,9 +196,18 @@ def build_svg(calendar, theme_name):
             color = theme["grid_colors"][level]
             x = MARGIN_X + wi * STEP
             y = grid_top + di * STEP
+            t = eat_time[(wi, di)]
+            # Real color until the snake's head arrives, then fades to
+            # "eaten", staying empty until the loop restarts.
+            pre = max(0.0, t - 0.001)
             rects.append(
                 f'<rect x="{x:.1f}" y="{y:.1f}" width="{CELL}" height="{CELL}" rx="2" fill="{color}">'
-                f'<title>{day["date"]}: {day["contributionCount"]} contributions</title></rect>'
+                f'<title>{day["date"]}: {day["contributionCount"]} contributions</title>'
+                f'<animate attributeName="fill" '
+                f'values="{color};{color};{theme["eaten_color"]};{theme["eaten_color"]}" '
+                f'keyTimes="0;{pre:.4f};{t:.4f};1" '
+                f'dur="{snake_duration}s" repeatCount="indefinite"/>'
+                f'</rect>'
             )
 
     # ---------- month labels under the grid ----------
@@ -301,6 +339,31 @@ def build_svg(calendar, theme_name):
         f'</g></defs>'
     )
 
+    # ---------- snake: head + trailing body segments along the eating path ----------
+    seg_size = CELL - 2
+    snake_defs = (
+        f'<defs>'
+        f'<rect id="snakeHead" x="{-seg_size/2:.1f}" y="{-seg_size/2:.1f}" width="{seg_size}" height="{seg_size}" '
+        f'rx="2.5" fill="{theme["snake_head"]}"/>'
+        f'<rect id="snakeBody" x="{-seg_size/2:.1f}" y="{-seg_size/2:.1f}" width="{seg_size}" height="{seg_size}" '
+        f'rx="2" fill="{theme["snake_body"]}"/>'
+        f'</defs>'
+    )
+    segment_delay = snake_duration / n_cells * 3.2  # cell-to-cell timing, spaced a few cells apart
+    snake_segments = [
+        f'<use href="#snakeHead"><animateMotion dur="{snake_duration}s" repeatCount="indefinite" '
+        f'begin="0s" path="{snake_path_d}"/></use>'
+    ]
+    for i in range(1, N_SNAKE_SEGMENTS):
+        # Positive begin = this segment's cycle starts later in real time,
+        # so at any given moment it shows the position the head was at
+        # `segment_delay * i` seconds ago -- i.e. trailing behind it.
+        snake_segments.append(
+            f'<use href="#snakeBody" opacity="{max(0.35, 1 - i * 0.12):.2f}">'
+            f'<animateMotion dur="{snake_duration}s" repeatCount="indefinite" '
+            f'begin="{segment_delay * i:.3f}s" path="{snake_path_d}"/></use>'
+        )
+
     svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">
   <style>text {{ font-family: "Segoe UI", "Ubuntu", Helvetica, Arial, sans-serif; }}</style>
   <rect width="{width}" height="{height}" fill="{theme['bg']}"/>
@@ -322,6 +385,8 @@ def build_svg(calendar, theme_name):
   </use>
 
   {''.join(rects)}
+  {snake_defs}
+  {''.join(snake_segments)}
   {''.join(month_labels)}
 </svg>'''
     return svg

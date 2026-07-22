@@ -51,18 +51,12 @@ More: [applied-ml-notebooks](https://github.com/abdelrhmanhesham1/applied-ml-not
 
 ### GitHub activity
 
-A real flight over my contribution graph — altitude is each week's actual commit volume (busier weeks fly higher), trail color follows the same altitude (flight-tracker convention):
+One grid, two creatures: a plane flies the altitude of each week's real activity above it (trail colored by altitude, flight-tracker style) while a snake eats through the actual contribution squares below, cell by cell, in the same canvas:
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/main/flight-path/flight-path-dark.svg" />
   <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/main/flight-path/flight-path-light.svg" />
-  <img alt="Flight path over contribution graph" src="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/main/flight-path/flight-path-dark.svg" width="100%" />
-</picture>
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/output/snake-dark.svg" />
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/output/snake.svg" />
-  <img alt="Contribution snake animation" src="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/output/snake.svg" width="100%" />
+  <img alt="Flight path and contribution snake, unified" src="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/main/flight-path/flight-path-dark.svg" width="100%" />
 </picture>
 
 **ATC radar scope** — each day plotted as a contact by bearing (day of year, spiraling outward to today) with size/brightness by that day's activity, swept by a live rotating beam:
