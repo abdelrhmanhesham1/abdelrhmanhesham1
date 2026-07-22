@@ -1,18 +1,24 @@
 #!/usr/bin/env python3
-"""Generate an aviation-instrument-styled contribution visualization.
+"""Generate the combined flight-path + real contribution-snake visualization.
+
+The snake grid is the REAL, unmodified output of Platane/snk (github.com/
+Platane/snk) -- this script does not reimplement or alter it in any way.
+It is embedded as a nested <svg> (only `x`/`y` placement attributes are
+added to its root tag; every byte of its internal markup, CSS, and
+animation is untouched) directly below a flight-path visualization whose
+plane flies at an altitude driven by each week's real contribution total,
+aligned to snk's own real column positions (parsed from its actual output,
+not assumed).
 
 Design references (researched, not guessed):
-- FlightRadar24: trail color encodes altitude (white->yellow->green->blue as
-  altitude increases) -- applied here as a per-segment gradient along the
-  flight path, colored by that week's actual contribution volume.
-- Primary Flight Display (PFD): a vertical altitude tape with tick marks on
-  the instrument's side -- applied here as a real reference scale for the
-  flight path's altitude axis, not just a bare line.
-- 2026 GitHub-profile design guidance: one visual, not a stack of widgets;
-  30-second comprehension; let it breathe.
+- FlightRadar24: trail color encodes altitude -- applied as a per-segment
+  gradient along the flight path, colored by that week's contribution volume.
+- Primary Flight Display (PFD): a vertical altitude tape with tick marks.
 """
 import json
 import os
+import re
+import sys
 import urllib.request
 
 USERNAME = os.environ.get("USERNAME") or os.environ.get("GITHUB_REPOSITORY_OWNER")
@@ -63,7 +69,6 @@ def rgb_to_hex(rgb):
 
 
 def lerp_color(stops, t):
-    """stops: list of (position 0..1, hex color), t: 0..1"""
     t = max(0.0, min(1.0, t))
     for i in range(len(stops) - 1):
         p0, c0 = stops[i]
@@ -76,70 +81,35 @@ def lerp_color(stops, t):
     return stops[-1][1]
 
 
-def level_for_count(count, max_count):
-    if count == 0:
-        return 0
-    if max_count <= 1:
-        return 4
-    ratio = count / max_count
-    if ratio <= 0.25:
-        return 1
-    if ratio <= 0.5:
-        return 2
-    if ratio <= 0.75:
-        return 3
-    return 4
-
-
 THEMES = {
     "dark": {
         "bg": "#0A1128",
         "bg2": "#0D1638",
         "fg": "#F3F7FC",
         "muted": "#7C8BAE",
-        "grid_colors": ["#12204A", "#1B3A6B", "#06B6D4", "#22D3EE", "#A78BFA"],
-        "eaten_color": "#0D1638",
         "altitude_stops": [(0.0, "#1B3A6B"), (0.45, "#06B6D4"), (0.75, "#22D3EE"), (1.0, "#A78BFA")],
         "tape_line": "#2A4A80",
         "plane_fill": "#F3F7FC",
         "plane_stroke": "#22D3EE",
         "marker": "#FF8A3D",
-        "snake_head": "#22D3EE",
-        "snake_body": "#0A7EA4",
     },
     "light": {
         "bg": "#F3F7FC",
         "bg2": "#EBF1FA",
         "fg": "#0A1128",
         "muted": "#5B6B8C",
-        "grid_colors": ["#E4EAF3", "#B8C7DE", "#06B6D4", "#22D3EE", "#7C3AED"],
-        "eaten_color": "#EBF1FA",
         "altitude_stops": [(0.0, "#8CA3C7"), (0.45, "#06B6D4"), (0.75, "#22D3EE"), (1.0, "#7C3AED")],
         "tape_line": "#C7D2E5",
         "plane_fill": "#0A1128",
         "plane_stroke": "#06B6D4",
         "marker": "#F4572E",
-        "snake_head": "#06B6D4",
-        "snake_body": "#0891A8",
     },
 }
 
-N_SNAKE_SEGMENTS = 6
-
-CELL = 11
-GAP = 3
-STEP = CELL + GAP
-MARGIN_X = 24
 TAPE_W = 34
 SKY_H = 118
-GRID_TOP_PAD = 10
-MONTH_LABEL_H = 16
-MARGIN_BOTTOM = 8
+SKY_TOP_PAD = 20
 
-MONTH_ABBR = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-
-# Plane silhouette, nose pre-rotated to point along +x so animateMotion's
-# rotate="auto" aligns it correctly with direction of travel.
 PLANE_PATH = (
     "M 11,0 L 4,1.6 L -3,11 L -5.2,11 L -2,1.8 L -9,2.6 L -11.5,6 L -13,6 "
     "L -10.8,0 L -13,-6 L -11.5,-6 L -9,-2.6 L -2,-1.8 L -5.2,-11 L -3,-11 "
@@ -147,92 +117,76 @@ PLANE_PATH = (
 )
 
 
-def build_svg(calendar, theme_name):
+def parse_snake_svg(path):
+    """Read the real, unmodified Platane/snk output and pull out only its
+    layout facts (viewBox, width, height, real column x-positions) -- the
+    markup itself (style/rects/animations) is never touched, only wrapped."""
+    with open(path, encoding="utf-8") as f:
+        content = f.read()
+
+    m = re.search(r'<svg[^>]*\bviewBox="([^"]+)"[^>]*\bwidth="(\d+)"[^>]*\bheight="(\d+)"', content)
+    if not m:
+        m2 = re.search(r'<svg[^>]*\bwidth="(\d+)"[^>]*\bheight="(\d+)"[^>]*\bviewBox="([^"]+)"', content)
+        width, height, viewbox = int(m2.group(1)), int(m2.group(2)), m2.group(3)
+    else:
+        viewbox, width, height = m.group(1), int(m.group(2)), int(m.group(3))
+
+    min_x = float(viewbox.split()[0])
+
+    xs = sorted(set(int(v) for v in re.findall(r'<rect class="c[^"]*" x="(\d+)"', content)))
+
+    return {
+        "raw": content,
+        "width": width,
+        "height": height,
+        "viewbox": viewbox,
+        "min_x": min_x,
+        "columns": xs,
+    }
+
+
+def embed_snake(raw_svg_content, x, y):
+    """Add ONLY x/y placement attributes to the snk SVG's own root tag so it
+    can sit inside a larger canvas -- no other byte of it is changed."""
+    return re.sub(r"<svg ", f'<svg x="{x}" y="{y}" ', raw_svg_content, count=1)
+
+
+def build_svg(calendar, theme_name, snake_info):
     theme = THEMES[theme_name]
     weeks = calendar["weeks"]
     total = calendar["totalContributions"]
     n_weeks = len(weeks)
 
-    grid_w = n_weeks * STEP - GAP
-    width = MARGIN_X + grid_w + TAPE_W + MARGIN_X
-    grid_h = 7 * STEP - GAP
-    sky_top = 20
-    sky_bottom = sky_top + SKY_H
-    grid_top = sky_bottom + GRID_TOP_PAD
-    height = grid_top + grid_h + MONTH_LABEL_H + MARGIN_BOTTOM
+    columns = snake_info["columns"]
+    if len(columns) != n_weeks:
+        # Fall back to evenly spaced columns if snk's week count ever
+        # differs from the GraphQL calendar's (shouldn't happen in practice
+        # since both derive from the same real contribution history).
+        columns = [columns[0] + i * 16 for i in range(n_weeks)] if columns else [i * 16 for i in range(n_weeks)]
 
-    all_counts = [d["contributionCount"] for w in weeks for d in w["contributionDays"]]
-    max_count = max(all_counts) if all_counts else 1
+    # snk's own rendered pixel x for column i is (raw_x - min_x); that's
+    # exactly where the plane must fly to stay above the real column.
+    col_px = [c - snake_info["min_x"] for c in columns]
+
+    snake_w = snake_info["width"]
+    snake_h = snake_info["height"]
+    width = snake_w + TAPE_W + 10
+    sky_top = SKY_TOP_PAD
+    sky_bottom = sky_top + SKY_H
+    height = sky_bottom + snake_h
+
     week_totals = [sum(d["contributionCount"] for d in w["contributionDays"]) for w in weeks]
     max_week_total = max(week_totals) if week_totals else 1
     peak_week_idx = week_totals.index(max_week_total)
 
-    # ---------- contribution grid, eaten by the snake as it passes ----------
-    # Boustrophedon order: column 0 top->bottom, column 1 bottom->top, etc.
-    # -- a real (simplified) snake path: every cell visited exactly once,
-    # only right-angle turns at the top/bottom of each column.
-    cell_order = []
-    for wi in range(n_weeks):
-        day_range = range(7) if wi % 2 == 0 else range(6, -1, -1)
-        for di in day_range:
-            cell_order.append((wi, di))
-    n_cells = len(cell_order)
-    eat_time = {(wi, di): k / n_cells for k, (wi, di) in enumerate(cell_order)}
-
-    cells_per_second = 14  # snake speed: how many cells it eats per second
-    snake_duration = max(20, round(n_cells / cells_per_second))
-
-    def cell_center(wi, di):
-        return (MARGIN_X + wi * STEP + CELL / 2, grid_top + di * STEP + CELL / 2)
-
-    snake_path_d = "M " + " L ".join(
-        f"{cell_center(wi, di)[0]:.1f},{cell_center(wi, di)[1]:.1f}" for wi, di in cell_order
-    )
-
-    rects = []
-    for wi, week in enumerate(weeks):
-        for di, day in enumerate(week["contributionDays"]):
-            level = level_for_count(day["contributionCount"], max_count)
-            color = theme["grid_colors"][level]
-            x = MARGIN_X + wi * STEP
-            y = grid_top + di * STEP
-            t = eat_time[(wi, di)]
-            # Real color until the snake's head arrives, then fades to
-            # "eaten", staying empty until the loop restarts.
-            pre = max(0.0, t - 0.001)
-            rects.append(
-                f'<rect x="{x:.1f}" y="{y:.1f}" width="{CELL}" height="{CELL}" rx="2" fill="{color}">'
-                f'<title>{day["date"]}: {day["contributionCount"]} contributions</title>'
-                f'<animate attributeName="fill" '
-                f'values="{color};{color};{theme["eaten_color"]};{theme["eaten_color"]}" '
-                f'keyTimes="0;{pre:.4f};{t:.4f};1" '
-                f'dur="{snake_duration}s" repeatCount="indefinite"/>'
-                f'</rect>'
-            )
-
-    # ---------- month labels under the grid ----------
-    month_labels = []
-    last_month = None
-    for wi, week in enumerate(weeks):
-        first_day = week["contributionDays"][0]["date"]
-        month = int(first_day.split("-")[1])
-        if month != last_month:
-            x = MARGIN_X + wi * STEP
-            month_labels.append(
-                f'<text x="{x:.1f}" y="{grid_top + grid_h + 12}" font-size="9" '
-                f'fill="{theme["muted"]}">{MONTH_ABBR[month - 1]}</text>'
-            )
-            last_month = month
-
-    # ---------- flight path control points (altitude = weekly activity) ----------
+    # ---------- flight path control points, aligned to snk's real columns ----------
     points = []
     for wi, wtotal in enumerate(week_totals):
-        x = MARGIN_X + wi * STEP + CELL / 2
+        x = col_px[wi] + 6  # +6 = to the center of a 12px-wide snk cell
         ratio = wtotal / max_week_total if max_week_total else 0
         y = sky_bottom - ratio * (sky_bottom - sky_top)
         points.append((x, y, ratio))
 
-    # Catmull-rom -> smooth cubic bezier through the points
     def smooth_path(pts):
         p = [(x, y) for x, y, _ in pts]
         d = f"M {p[0][0]:.1f} {p[0][1]:.1f} "
@@ -246,8 +200,6 @@ def build_svg(calendar, theme_name):
 
     full_path_d = smooth_path(points)
 
-    # per-segment altitude-colored trail (short straight-ish segments,
-    # colored by that segment's altitude ratio -- FlightRadar24-style)
     trail_segments = []
     for i in range(1, len(points)):
         x0, y0, _ = points[i - 1]
@@ -258,7 +210,6 @@ def build_svg(calendar, theme_name):
             f'stroke="{color}" stroke-width="2" stroke-linecap="round" opacity="0.9"/>'
         )
 
-    # data-point dots every 4 weeks, like real timestamped trail points
     dots = []
     for i, (x, y, r) in enumerate(points):
         if i % 4 == 0 or i == len(points) - 1:
@@ -271,20 +222,20 @@ def build_svg(calendar, theme_name):
     )
     duration = max(16, min(30, round(path_length / 32)))
 
-    # ---------- altitude tape (PFD-style vertical scale) ----------
-    tape_x = MARGIN_X + grid_w + 14
+    # ---------- altitude tape (PFD-style vertical scale), to the right of the snake grid ----------
+    tape_x = snake_w + 4
     tape_ticks = []
     n_ticks = 5
     for i in range(n_ticks + 1):
         frac = i / n_ticks
         y = sky_bottom - frac * (sky_bottom - sky_top)
         label_val = round(frac * max_week_total)
-        tick_len = 8 if i % (n_ticks) == 0 or i == n_ticks // 2 else 5
+        tick_len = 8 if i in (0, n_ticks, n_ticks // 2) else 5
         tape_ticks.append(
             f'<line x1="{tape_x}" y1="{y:.1f}" x2="{tape_x + tick_len}" y2="{y:.1f}" '
             f'stroke="{theme["tape_line"]}" stroke-width="1"/>'
         )
-        if i == 0 or i == n_ticks:
+        if i in (0, n_ticks):
             tape_ticks.append(
                 f'<text x="{tape_x + 11}" y="{y + 3:.1f}" font-size="8" '
                 f'fill="{theme["muted"]}">{label_val}</text>'
@@ -294,21 +245,18 @@ def build_svg(calendar, theme_name):
         f'stroke="{theme["tape_line"]}" stroke-width="1"/>'
     )
     tape_label = (
-        f'<text x="{tape_x + 11}" y="{sky_top - 6}" font-size="7.5" '
-        f'fill="{theme["muted"]}">commits</text>'
-        f'<text x="{tape_x + 11}" y="{sky_top + 4}" font-size="7.5" '
-        f'fill="{theme["muted"]}">/week</text>'
+        f'<text x="{tape_x + 11}" y="{sky_top - 6}" font-size="7.5" fill="{theme["muted"]}">commits</text>'
+        f'<text x="{tape_x + 11}" y="{sky_top + 4}" font-size="7.5" fill="{theme["muted"]}">/week</text>'
     )
 
-    # ---------- start / current position markers ----------
     start_x, start_y, _ = points[0]
     cur_x, cur_y, _ = points[-1]
     start_marker = (
-        f'<g transform="translate({start_x:.1f},{sky_bottom + 9:.1f})">'
+        f'<g transform="translate({start_x:.1f},{sky_bottom + 4:.1f})">'
         f'<line x1="0" y1="-9" x2="0" y2="0" stroke="{theme["muted"]}" stroke-width="1" stroke-dasharray="2 2"/>'
         f'<circle r="2" fill="none" stroke="{theme["muted"]}" stroke-width="1"/>'
         f'</g>'
-        f'<text x="{start_x - 8:.1f}" y="{sky_bottom + 24:.1f}" font-size="7.5" fill="{theme["muted"]}">start</text>'
+        f'<text x="{start_x - 8:.1f}" y="{sky_bottom + 18:.1f}" font-size="7.5" fill="{theme["muted"]}">start</text>'
     )
     current_marker = (
         f'<g transform="translate({cur_x:.1f},{cur_y:.1f})">'
@@ -318,16 +266,14 @@ def build_svg(calendar, theme_name):
         f'<text x="{cur_x - 10:.1f}" y="{sky_top - 6:.1f}" font-size="8" fill="{theme["marker"]}">now</text>'
     )
 
-    # peak-week callout
     peak_x, peak_y, _ = points[peak_week_idx]
     peak_callout = (
         f'<text x="{peak_x:.1f}" y="{peak_y - 8:.1f}" font-size="8" text-anchor="middle" '
         f'fill="{theme["fg"]}" opacity="0.9">{max_week_total} in one week</text>'
     )
 
-    # ---------- HUD readout (top-left, avionics-style) ----------
     hud = f'''
-    <g transform="translate({MARGIN_X},{sky_top - 12})">
+    <g transform="translate(6,{sky_top - 12})">
       <text x="0" y="0" font-size="9" letter-spacing="1.5" fill="{theme["muted"]}">TOTAL CONTRIBUTIONS</text>
       <text x="0" y="12" font-size="15" font-weight="600" fill="{theme["fg"]}">{total}</text>
     </g>
@@ -339,35 +285,12 @@ def build_svg(calendar, theme_name):
         f'</g></defs>'
     )
 
-    # ---------- snake: head + trailing body segments along the eating path ----------
-    seg_size = CELL - 2
-    snake_defs = (
-        f'<defs>'
-        f'<rect id="snakeHead" x="{-seg_size/2:.1f}" y="{-seg_size/2:.1f}" width="{seg_size}" height="{seg_size}" '
-        f'rx="2.5" fill="{theme["snake_head"]}"/>'
-        f'<rect id="snakeBody" x="{-seg_size/2:.1f}" y="{-seg_size/2:.1f}" width="{seg_size}" height="{seg_size}" '
-        f'rx="2" fill="{theme["snake_body"]}"/>'
-        f'</defs>'
-    )
-    segment_delay = snake_duration / n_cells * 3.2  # cell-to-cell timing, spaced a few cells apart
-    snake_segments = [
-        f'<use href="#snakeHead"><animateMotion dur="{snake_duration}s" repeatCount="indefinite" '
-        f'begin="0s" path="{snake_path_d}"/></use>'
-    ]
-    for i in range(1, N_SNAKE_SEGMENTS):
-        # Positive begin = this segment's cycle starts later in real time,
-        # so at any given moment it shows the position the head was at
-        # `segment_delay * i` seconds ago -- i.e. trailing behind it.
-        snake_segments.append(
-            f'<use href="#snakeBody" opacity="{max(0.35, 1 - i * 0.12):.2f}">'
-            f'<animateMotion dur="{snake_duration}s" repeatCount="indefinite" '
-            f'begin="{segment_delay * i:.3f}s" path="{snake_path_d}"/></use>'
-        )
+    embedded_snake = embed_snake(snake_info["raw"], 0, sky_bottom)
 
     svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">
   <style>text {{ font-family: "Segoe UI", "Ubuntu", Helvetica, Arial, sans-serif; }}</style>
   <rect width="{width}" height="{height}" fill="{theme['bg']}"/>
-  <rect x="0" y="{sky_top - 20}" width="{width}" height="{sky_bottom - sky_top + 20}" fill="{theme['bg2']}"/>
+  <rect x="0" y="0" width="{width}" height="{sky_bottom}" fill="{theme['bg2']}"/>
 
   {hud}
   {tape_label}
@@ -384,10 +307,7 @@ def build_svg(calendar, theme_name):
     <animateMotion dur="{duration}s" repeatCount="indefinite" rotate="auto" path="{full_path_d}"/>
   </use>
 
-  {''.join(rects)}
-  {snake_defs}
-  {''.join(snake_segments)}
-  {''.join(month_labels)}
+  {embedded_snake}
 </svg>'''
     return svg
 
@@ -396,8 +316,15 @@ def main():
     calendar = fetch_calendar(USERNAME)
     out_dir = "flight-path"
     os.makedirs(out_dir, exist_ok=True)
+
+    snake_files = {
+        "dark": os.environ.get("SNAKE_DARK_PATH", "dist/snake-dark.svg"),
+        "light": os.environ.get("SNAKE_LIGHT_PATH", "dist/snake.svg"),
+    }
+
     for theme_name in ("dark", "light"):
-        svg = build_svg(calendar, theme_name)
+        snake_info = parse_snake_svg(snake_files[theme_name])
+        svg = build_svg(calendar, theme_name, snake_info)
         path = os.path.join(out_dir, f"flight-path-{theme_name}.svg")
         with open(path, "w", encoding="utf-8") as f:
             f.write(svg)

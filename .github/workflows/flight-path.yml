@@ -14,11 +14,19 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
+      - name: Generate the real Platane/snk snake (unmodified)
+        uses: Platane/snk@v3
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          outputs: |
+            dist/snake.svg
+            dist/snake-dark.svg?palette=github-dark
+
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      - name: Generate flight path SVGs
+      - name: Generate flight path (plane + real snake, combined)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ${{ github.repository_owner }}
