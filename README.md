@@ -33,7 +33,7 @@ I build production AI and backend systems — from intelligent APIs to aviation 
 | 👁️ [**CodeAlpha AI Suite**](https://github.com/abdelrhmanhesham1/codealpha_tasks) | Real-time YOLOv8 + ByteTrack object tracking, 100+ language translator | Computer vision + NLP internship deliverables |
 | 🎓 [**Backend Track Curriculum**](https://github.com/abdelrhmanhesham1/backend-track-curriculum) | A 16-week backend program I authored and led as Vice Head of Software, ZNU CS Community | 48 contact hours · 5 progressive projects · 3 embedded certifications |
 
-More: [applied-ml-notebooks](https://github.com/abdelrhmanhesham1/applied-ml-notebooks) (6 documented ML projects) · [festflow-api](https://github.com/abdelrhmanhesham1/festflow-api) · [brolog](https://github.com/abdelrhmanhesham1/brolog) · [crop-recommendation-ml](https://github.com/abdelrhmanhesham1/crop-recommendation-ml)
+More: [applied-ml-notebooks](https://github.com/abdelrhmanhesham1/applied-ml-notebooks) (6 documented ML projects) · [festflow-api](https://github.com/abdelrhmanhesham1/festflow-api) · [brolog](https://github.com/abdelrhmanhesham1/brolog) · [crop-recommendation-ml](https://github.com/abdelrhmanhesham1/crop-recommendation-ml) · [aviation-sms-comparison-tool](https://github.com/abdelrhmanhesham1/aviation-sms-comparison-tool) · [aviation-sms-manual](https://github.com/abdelrhmanhesham1/aviation-sms-manual)
 
 ---
 
