@@ -51,43 +51,13 @@ More: [applied-ml-notebooks](https://github.com/abdelrhmanhesham1/applied-ml-not
 
 ### GitHub activity
 
-**Flight path** — a real flight over my contribution graph: altitude is driven by each week's actual activity (busier weeks, higher altitude), flown as a dashed line in the same style as the portfolio's own signature scroll animation:
+A real flight over my contribution graph — altitude is each week's actual commit volume (busier weeks fly higher), trail color follows the same altitude (flight-tracker convention), with a live-updating total and this week's peak:
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/main/flight-path/flight-path-dark.svg" />
   <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/main/flight-path/flight-path-light.svg" />
   <img alt="Flight path over contribution graph" src="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/main/flight-path/flight-path-dark.svg" width="100%" />
 </picture>
-
-<details>
-<summary>3D contribution skyline (click to expand)</summary>
-<br>
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/main/profile-3d-contrib/skyline-dark.svg" />
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/main/profile-3d-contrib/skyline-light.svg" />
-  <img alt="3D contribution skyline" src="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/main/profile-3d-contrib/skyline-dark.svg" width="100%" />
-</picture>
-
-</details>
-
-<details>
-<summary>Contribution snake (click to expand)</summary>
-<br>
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/output/snake-dark.svg" />
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/output/snake.svg" />
-  <img alt="Contribution snake animation" src="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/output/snake.svg" />
-</picture>
-
-</details>
-
-<div align="center">
-
-<img src="https://github-readme-streak-stats.herokuapp.com/?user=abdelrhmanhesham1&hide_border=true&background=0A1128&stroke=1B3A6B&ring=22D3EE&fire=FF8A3D&currStreakLabel=22D3EE&sideLabels=B8C7DE&currStreakNum=F3F7FC&sideNums=F3F7FC&dates=B8C7DE" alt="GitHub streak stats" width="90%" />
-
-</div>
 
 ---
 
