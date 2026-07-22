@@ -51,13 +51,31 @@ More: [applied-ml-notebooks](https://github.com/abdelrhmanhesham1/applied-ml-not
 
 ### GitHub activity
 
-A real flight over my contribution graph — altitude is each week's actual commit volume (busier weeks fly higher), trail color follows the same altitude (flight-tracker convention), with a live-updating total and this week's peak:
+A real flight over my contribution graph — altitude is each week's actual commit volume (busier weeks fly higher), trail color follows the same altitude (flight-tracker convention):
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/main/flight-path/flight-path-dark.svg" />
   <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/main/flight-path/flight-path-light.svg" />
   <img alt="Flight path over contribution graph" src="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/main/flight-path/flight-path-dark.svg" width="100%" />
 </picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/output/snake-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/output/snake.svg" />
+  <img alt="Contribution snake animation" src="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/output/snake.svg" width="100%" />
+</picture>
+
+**ATC radar scope** — each day plotted as a contact by bearing (day of year, spiraling outward to today) with size/brightness by that day's activity, swept by a live rotating beam:
+
+<div align="center">
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/main/radar/radar-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/main/radar/radar-light.svg" />
+  <img alt="Contribution radar scope" src="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/main/radar/radar-dark.svg" width="340" />
+</picture>
+
+</div>
 
 ---
 

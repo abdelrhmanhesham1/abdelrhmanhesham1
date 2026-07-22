@@ -1,4 +1,4 @@
-name: Generate flight-path contribution visualization
+name: Generate aviation contribution visualizations
 
 on:
   schedule:
@@ -24,14 +24,20 @@ jobs:
           USERNAME: ${{ github.repository_owner }}
         run: python scripts/generate_flight_path.py
 
+      - name: Generate radar scope SVGs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USERNAME: ${{ github.repository_owner }}
+        run: python scripts/generate_radar.py
+
       - name: Commit & push if changed
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add flight-path/
+          git add flight-path/ radar/
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
-            git commit -m "chore: regenerate flight-path visualization"
+            git commit -m "chore: regenerate aviation contribution visualizations"
             git push
           fi
