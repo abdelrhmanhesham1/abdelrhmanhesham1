@@ -1,0 +1,38 @@
+[
+  {
+    "type": "normal",
+    "fileName": "skyline-dark.svg",
+    "backgroundColor": "#0A1128",
+    "foregroundColor": "#F3F7FC",
+    "strongColor": "#22D3EE",
+    "weakColor": "#1B3A6B",
+    "radarColor": "#22D3EE",
+    "growingAnimation": true,
+    "duration": "12s",
+    "contribColors": [
+      "#12204A",
+      "#1B3A6B",
+      "#06B6D4",
+      "#22D3EE",
+      "#A78BFA"
+    ]
+  },
+  {
+    "type": "normal",
+    "fileName": "skyline-light.svg",
+    "backgroundColor": "#F3F7FC",
+    "foregroundColor": "#0A1128",
+    "strongColor": "#06B6D4",
+    "weakColor": "#B8C7DE",
+    "radarColor": "#7C3AED",
+    "growingAnimation": true,
+    "duration": "12s",
+    "contribColors": [
+      "#E4EAF3",
+      "#B8C7DE",
+      "#06B6D4",
+      "#22D3EE",
+      "#7C3AED"
+    ]
+  }
+]
