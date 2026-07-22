@@ -51,13 +51,25 @@ More: [applied-ml-notebooks](https://github.com/abdelrhmanhesham1/applied-ml-not
 
 ### GitHub activity
 
-**3D contribution skyline** — the contribution graph rendered as an isometric 3D skyline, with each bar animating up from the base, recolored to the portfolio's navy → cyan → violet gradient:
+**Flight path** — a real flight over my contribution graph: altitude is driven by each week's actual activity (busier weeks, higher altitude), flown as a dashed line in the same style as the portfolio's own signature scroll animation:
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/main/flight-path/flight-path-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/main/flight-path/flight-path-light.svg" />
+  <img alt="Flight path over contribution graph" src="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/main/flight-path/flight-path-dark.svg" width="100%" />
+</picture>
+
+<details>
+<summary>3D contribution skyline (click to expand)</summary>
+<br>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/main/profile-3d-contrib/skyline-dark.svg" />
   <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/main/profile-3d-contrib/skyline-light.svg" />
   <img alt="3D contribution skyline" src="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/main/profile-3d-contrib/skyline-dark.svg" width="100%" />
 </picture>
+
+</details>
 
 <details>
 <summary>Contribution snake (click to expand)</summary>
