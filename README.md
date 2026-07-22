@@ -14,9 +14,9 @@ An engineer who speaks both languages: aviation operations and production AI.
 
 ### Proof strip
 
-| GPA | Class Rank | Competition Wins | API Endpoints | Model Accuracy |
+| GPA | Class Rank | Competition Wins | API Endpoints | Projects Shipped |
 |---|---|---|---|---|
-| **3.922/4.0** | **6th of 108** | **4×** | **40+** | **93.5%** |
+| **3.922/4.0** | **6th of 108** | **4×** | **40+** | ![Projects Shipped](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.github.com%2Fusers%2Fabdelrhmanhesham1&label=&query=%24.public_repos&color=22D3EE&style=flat-square) |
 
 I build production AI and backend systems — from intelligent APIs to aviation information platforms. Real industry exposure at EGSA (Egyptian Space Agency), EgyptAir, and NANSC (Cairo ATC tower, CNS/ATM) sits alongside production engineering: Gate Buddy's 40+ endpoint backend, and a DistilBERT sentiment + causal-inference research pipeline on 7,277 real airline reviews.
 
@@ -51,11 +51,25 @@ More: [applied-ml-notebooks](https://github.com/abdelrhmanhesham1/applied-ml-not
 
 ### GitHub activity
 
+**3D contribution skyline** — the contribution graph rendered as an isometric 3D skyline, with each bar animating up from the base, recolored to the portfolio's navy → cyan → violet gradient:
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/main/profile-3d-contrib/skyline-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/main/profile-3d-contrib/skyline-light.svg" />
+  <img alt="3D contribution skyline" src="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/main/profile-3d-contrib/skyline-dark.svg" width="100%" />
+</picture>
+
+<details>
+<summary>Contribution snake (click to expand)</summary>
+<br>
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/output/snake-dark.svg" />
   <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/output/snake.svg" />
   <img alt="Contribution snake animation" src="https://raw.githubusercontent.com/abdelrhmanhesham1/abdelrhmanhesham1/output/snake.svg" />
 </picture>
+
+</details>
 
 <div align="center">
 
