@@ -16,7 +16,7 @@ An engineer who speaks both languages: aviation operations and production AI.
 
 | GPA | Class Rank | Competition Wins | API Endpoints | Projects Shipped |
 |---|---|---|---|---|
-| **3.922/4.0** | **6th of 108** | **4×** | **40+** | **<!--PROJECTS_SHIPPED-->17<!--/PROJECTS_SHIPPED-->** |
+| **3.922/4.0** | **6th of 108** | **4×** | **40+** | **<!--PROJECTS_SHIPPED-->18<!--/PROJECTS_SHIPPED-->** |
 
 I build production AI and backend systems — from intelligent APIs to aviation information platforms. Real industry exposure at EGSA (Egyptian Space Agency), EgyptAir, and NANSC (Cairo ATC tower, CNS/ATM) sits alongside production engineering: Gate Buddy's 40+ endpoint backend, and a DistilBERT sentiment + causal-inference research pipeline on 7,277 real airline reviews.
 
