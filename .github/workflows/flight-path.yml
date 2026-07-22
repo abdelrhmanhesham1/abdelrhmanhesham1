@@ -1,0 +1,37 @@
+name: Generate flight-path contribution visualization
+
+on:
+  schedule:
+    - cron: "0 7 * * *" # daily
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Generate flight path SVGs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USERNAME: ${{ github.repository_owner }}
+        run: python scripts/generate_flight_path.py
+
+      - name: Commit & push if changed
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add flight-path/
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: regenerate flight-path visualization"
+            git push
+          fi
